@@ -1,0 +1,20 @@
+import React from 'react'
+import './Buynow.css'
+
+function Option() {
+  return (
+    <div className='add_remove_select'>
+        <select>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <p style={{cursor:"pointer"}}>Delete</p><span>|</span>
+        <p className='forremovemdeia'>Save Or Later</p><span>|</span>
+        <p className='forremovemdeia'>See More like this</p><span>|</span>
+    </div>
+  )
+}
+
+export default Option
