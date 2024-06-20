@@ -18,7 +18,7 @@ router.get("/getproductsone/:id",async(req,res)=>{
     try {
         const {id} = req.params;
         const individualdata = await Products.findOne({id:id});
-        console.log(individualdata);
+        // console.log(individualdata);
         res.status(201).json(individualdata);
     } catch (error) {
         res.status(400).json(individualdata);

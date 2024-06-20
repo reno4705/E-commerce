@@ -3,6 +3,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { products_2 } from "./productdata";
 import "./slide.css";
+import { Link } from "react-router-dom";
 
 const responsive = {
     desktop: {
@@ -47,9 +48,11 @@ const Slider2 = ({title}) => {
             >
                 {products_2.map((e) => {
                     return (
+                        <Link to={`/getproductsone/${e.id}`}>
                         <div className="products_items">
                             <img src={e.url} alt="product-image" />
                         </div>
+                        </Link>
                     );
                 })}
             </Carousel>

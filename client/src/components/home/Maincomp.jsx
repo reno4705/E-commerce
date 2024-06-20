@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Banner from "./banner";
 import "./home.css";
 import Slider1 from "./Slider1";
@@ -8,19 +8,18 @@ import fest from "../../Assets/festival special.jpg";
 import ad_banner from "../../Assets/ad-banner.jpeg";
 import Groupcard from "./Groupcard";
 import { getProducts } from "../redux/actions/action";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { products_1 } from "./productdata";
+import axios from "axios";
 
 const Maincomp = () => {
+    // const { products } = useSelector(state=>state.getproductsdata);
+    // console.log(products);
+    // const dispatch = useDispatch();
+    // useEffect(()=>{
+    //     dispatch(getProducts());
+    // },[dispatch])
 
-    const { products } = useSelector(state=>state.getproductsdata);
-    console.log(products);
-
-    const dispatch = useDispatch();
-
-    useEffect(()=>{
-        dispatch(getProducts());
-    },[dispatch])
     
 
     return (
@@ -35,9 +34,7 @@ const Maincomp = () => {
 
             <div className="slide_part">
                 <div className="left_slide">
-                    <Slider1 
-                        title="Up to 75% off | Unique products from new businesses" 
-                    />
+                    <Slider1 title="Up to 75% off | Unique products from new businesses"/>
                 </div>
                 <div className="right_slide">
                     <h4>Festivel latest launches</h4>

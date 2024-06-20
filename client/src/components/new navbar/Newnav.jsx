@@ -1,6 +1,6 @@
 import React from "react";
 import '../new navbar/Newnav.css'
-import newnav from '../../Assets/nav.jpg'
+// import newnav from '../../Assets/nav.jpg'
 
 const Newnav = () => {
     return (
@@ -18,7 +18,7 @@ const Newnav = () => {
                     <p>Amazon Pay</p>
                 </div>
                 <div className="right_data">
-                    <img src={newnav} alt="navdata" />
+                    <img src="./nav.jpg" alt="navdata" />
                 </div>
             </div>
         </div>

@@ -1,8 +1,8 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+// import { products_1 } from "./productdata";
 import { products_1 } from "./productdata";
-// import { products } from "./productdata";
 import "./slide.css";
 import { Link } from "react-router-dom";
 
@@ -24,7 +24,17 @@ const responsive = {
     },
 };
 
-const Slider1 = ({title,products}) => {
+const Slider1 = ({title}) => {
+    // const [prod, setProd] = useState([]);
+    // useEffect(() => {
+    //     getproducts();
+    // }, []);
+
+    // const getproducts = async () => {
+    //     const prod = await axios.get("http://localhost:8080/getproducts");
+    //     console.log(prod.data);
+    //     setProd(prod.data);
+    // };
 
     return (
         <div className="products_section">
