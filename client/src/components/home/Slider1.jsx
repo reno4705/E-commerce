@@ -25,16 +25,6 @@ const responsive = {
 };
 
 const Slider1 = ({title}) => {
-    // const [prod, setProd] = useState([]);
-    // useEffect(() => {
-    //     getproducts();
-    // }, []);
-
-    // const getproducts = async () => {
-    //     const prod = await axios.get("http://localhost:8080/getproducts");
-    //     console.log(prod.data);
-    //     setProd(prod.data);
-    // };
 
     return (
         <div className="products_section">

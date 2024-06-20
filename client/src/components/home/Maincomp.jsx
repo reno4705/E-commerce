@@ -13,15 +13,6 @@ import { products_1 } from "./productdata";
 import axios from "axios";
 
 const Maincomp = () => {
-    // const { products } = useSelector(state=>state.getproductsdata);
-    // console.log(products);
-    // const dispatch = useDispatch();
-    // useEffect(()=>{
-    //     dispatch(getProducts());
-    // },[dispatch])
-
-    
-
     return (
         <div className="home_section">
             <div className="banner_part">
