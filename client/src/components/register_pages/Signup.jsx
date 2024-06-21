@@ -2,6 +2,9 @@ import { React, useState } from "react";
 import black_logo from "../../Assets/blacklogo.png";
 import "./Signup.css";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Divider } from "@mui/material";
 
 function Signup() {
     const [udata, setUdata] = useState({
@@ -17,12 +20,55 @@ function Signup() {
     const adddata = (e) => {
         const { name, value } = e.target;
         setUdata((pre) => {
-          return {
-              ...pre,
-              [name]: value
-          }
-      })
+            return {
+                ...pre,
+                [name]: value,
+            };
+        });
     };
+
+    const senddata = async (e) => {
+        e.preventDefault();
+        const { fname, email, mobile, password, cpassword } = udata;
+        try {
+            const res = await fetch("http://localhost:8080/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fname,
+                    email,
+                    mobile,
+                    password,
+                    cpassword,
+                }),
+            });
+            const data = await res.json();
+            // console.log(data);
+
+            if (res.status === 422 || !data) {
+                toast.error("Invalid Details! 😒👎", {
+                    position: "top-right",
+                });
+            } else {
+                setUdata({
+                    ...udata,
+                    fname: "",
+                    email: "",
+                    mobile: "",
+                    password: "",
+                    cpassword: "",
+                });
+                toast.success("Registration Successfully done 🫡!", {
+                    position: "top-right",
+                });
+            }
+        } catch (error) {
+            console.log("Error" + error.message);
+        }
+    };
+
     return (
         <section>
             <div className="sign_container">
@@ -30,7 +76,7 @@ function Signup() {
                     <img src={black_logo} alt="AMAZON-LOGO" />
                 </div>
                 <div className="sign_form">
-                    <form>
+                    <form method="POST">
                         <h1>Create Account</h1>
                         <div className="form_data">
                             <label htmlFor="">Your name</label>
@@ -83,13 +129,17 @@ function Signup() {
                                 value={udata.cpassword}
                             />
                         </div>
-                        <button className="signin_btn">Continue</button>
+                        <button className="signin_btn" onClick={senddata}>
+                            Continue
+                        </button>
+                        <Divider/>
+                        <div className="signin_info">
+                            <p>Alreadyhave an account?</p>
+                            <Link to="/login">Signin</Link>
+                        </div>
                     </form>
-                    <div className="signin_info">
-                        <p>Alreadyhave an account?</p>
-                        <Link to="/login">Signin</Link>
-                    </div>
                 </div>
+                <ToastContainer />
             </div>
         </section>
     );

@@ -7,10 +7,6 @@ import Slider3 from "./Slider3";
 import fest from "../../Assets/festival special.jpg";
 import ad_banner from "../../Assets/ad-banner.jpeg";
 import Groupcard from "./Groupcard";
-import { getProducts } from "../redux/actions/action";
-import { useDispatch, useSelector } from "react-redux";
-import { products_1 } from "./productdata";
-import axios from "axios";
 
 const Maincomp = () => {
     return (

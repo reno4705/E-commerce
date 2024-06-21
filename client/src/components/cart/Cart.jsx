@@ -9,7 +9,9 @@ function Cart() {
     const [inddata, setIndedata] = useState([]);
 
     const getinddata = async () => {
-        const prod = await axios.get(`http://localhost:8080/getproductsone/${id}`);
+        const prod = await axios.get(
+            `http://localhost:8080/getproductsone/${id}`
+        );
         console.log("hello");
         console.log(prod.data);
         setIndedata(prod.data);
@@ -40,13 +42,13 @@ function Cart() {
                         <p>
                             Deal of the Day :{" "}
                             <span style={{ color: "#B12704" }}>
-                                ${inddata.price.cost}.00
+                                ₹{inddata.price.cost}.00
                             </span>
                         </p>
                         <p>
                             You save :{" "}
                             <span style={{ color: "#B12704" }}>
-                                ${inddata.price.mrp - inddata.price.cost} (
+                                ₹{inddata.price.mrp - inddata.price.cost} (
                                 {inddata.price.discount}){" "}
                             </span>
                         </p>
