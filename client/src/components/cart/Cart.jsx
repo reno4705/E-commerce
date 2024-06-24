@@ -21,6 +21,33 @@ function Cart() {
         setTimeout(getinddata, 1000);
     }, [id]);
 
+    // add cart
+    const addtocart = async(id) => {
+        const checkres = await fetch(`http://localhost:8080/addcart/${id}`,{
+            method: "POST",
+            headers: {
+                Accept:"application/json",
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({
+                inddata
+            }),
+            credentials:"include"
+        })
+
+        const data1 = await checkres.json();
+        console.log(data1 +  "frontend data");
+
+        if(checkres.status === 401 || !data1) {
+            console.log("invalid user");
+            alert("user invalid");
+        }
+        else {
+            alert("data added in cart");
+        }
+    }
+
+
     return (
         <div className="cart_section">
             {inddata && Object.keys(inddata).length && (
@@ -28,7 +55,7 @@ function Cart() {
                     <div className="left_cart">
                         <img src={inddata.url} alt="cart_img" />
                         <div className="cart_btn">
-                            <button className="cart_btn1">Add to Cart</button>
+                            <button className="cart_btn1" onClick={()=>addtocart(inddata.id)}>Add to Cart</button>
                             <button className="cart_btn2">Buy Now</button>
                         </div>
                     </div>

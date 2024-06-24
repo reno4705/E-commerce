@@ -42,7 +42,7 @@ function Signup() {
                     mobile,
                     password,
                     cpassword,
-                }),
+                })
             });
             const data = await res.json();
             // console.log(data);
@@ -65,7 +65,7 @@ function Signup() {
                 });
             }
         } catch (error) {
-            console.log("Error" + error.message);
+            console.log("Catch-Error" + error.message);
         }
     };
 

@@ -2,6 +2,8 @@ import {React,useState} from "react";
 import black_logo from "../../Assets/blacklogo.png";
 import "./Signup.css";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signin() {
   const [logdata,setData] = useState({
@@ -20,6 +22,45 @@ function Signin() {
       }
     })
   }
+
+  const senddata = async(e)=>{
+    e.preventDefault();
+    const {email,password} = logdata;
+    const res = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        body: JSON.stringify({
+            email,
+            password
+        }),
+    });
+    const data = await res.json();
+    console.log(data);
+
+    if(res.status === 400 || !data){
+        toast.error("Invalid Details! 😒👎", {
+            position: "top-right",
+        });
+    } else if (res.status === 401) {
+        toast.warn("Incorrect password! 🧐", {
+            position: "top-right",
+        });
+    } else if (res.status == 404) {
+        toast.error("User not found! 😶‍🌫️", {
+            position: "top-right",
+        });
+    }
+    else {
+        toast.success("login Successfull! 😎", {
+            position: "top-right",
+        });
+        setData({...logdata,email:"",password:""});
+    }
+  }
+
     return (
         <section>
             <div className="sign_container">
@@ -27,7 +68,7 @@ function Signin() {
                     <img src={black_logo} alt="AMAZON-LOGO" />
                 </div>
                 <div className="sign_form">
-                    <form>
+                    <form method="POST">
                         <h1>Sign in</h1>
                         <div className="form_data">
                             <label htmlFor="">Email</label>
@@ -50,7 +91,7 @@ function Signin() {
                                 value={logdata.password}
                             />
                         </div>
-                        <button className="signin_btn">Continue</button>
+                        <button className="signin_btn" onClick={senddata}>Continue</button>
                     </form>
                 </div>
                 <div className="create_accountinfo">
@@ -60,6 +101,7 @@ function Signin() {
                     </Link>
                 </div>
             </div>
+            <ToastContainer/>
         </section>
     );
 }
