@@ -5,6 +5,7 @@ const USER = require("../models/userSchema");
 const bcrypt = require("bcryptjs");
 const authenticate = require("../middleware/authenticate");
 
+
 // get productsdata api
 router.get("/getproducts", async (req, res) => {
     try {
@@ -78,7 +79,8 @@ router.post("/login", async (req, res) => {
                 console.log(token);
                 res.cookie("Amazonweb", token, {
                     expires: new Date(Date.now() + 900000),
-                    httpOnly: true
+                    httpOnly: true,
+                    secure: true
                 });
                 res.status(201).json(userlogin);
             }
@@ -112,5 +114,56 @@ router.post("/addcart/:id", authenticate, async (req, res) => {
         res.status(401).json({ error: "invalid user" });
     }
 });
+
+// get cart details
+router.get("/cartdetails",authenticate,async(req,res)=>{
+    try {
+        const buyuser = await USER.findOne({_id:req.userID});
+        res.status(201).json(buyuser);
+    } catch (error) {
+        console.log("Error:"+error);
+    }
+})
+
+// get valid user
+router.get("/validuser",authenticate,async(req,res)=>{
+    try {
+        const validuserone = await USER.findOne({_id:req.userID});
+        res.status(201).json(validuserone);
+    } catch (error) {
+        console.log("Error:"+error);
+    }
+})
+
+// remove item from cart
+router.delete("/remove/:id",authenticate,async(req,res)=>{
+    try {
+        const {id} = req.params;
+        req.rootUser.carts = req.rootUser.carts.filter((cruval)=>{
+            return cruval.id != id;
+        })
+        req.rootUser.save();
+        res.status(201).json(req.rootUser);
+        console.log("item removed");
+    } catch (error) {
+        console.log("Error:"+error);
+        res.status(400).json(req.rootUser);
+    }
+})
+
+// user logout
+router.get("/logout",authenticate,(req,res)=>{
+    try {
+        req.rootUser.tokens = req.rootUser.tokens.filter((curelem)=>{
+            return curelem.token !== req.token
+        })
+        res.clearCookie("Amazonweb",{path:"/"});
+        req.rootUser.save();
+        res.status(201).json(req.rootUser.tokens);
+        console.log("user logged out");
+    } catch (error) {
+        console.log("error for user logout");
+    }
+})
 
 module.exports = router;

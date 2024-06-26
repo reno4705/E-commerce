@@ -1,9 +1,10 @@
-import {React,useState} from "react";
+import {React,useState,useContext} from "react";
 import black_logo from "../../Assets/blacklogo.png";
 import "./Signup.css";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LoginContext } from "../context/ContextProvider";
 
 function Signin() {
   const [logdata,setData] = useState({
@@ -11,7 +12,9 @@ function Signin() {
     password:""
   })
 
-  console.log(logdata)
+//   console.log(logdata)
+
+const { account, setAccount } = useContext(LoginContext);
 
   const adddata = (e) => {
     const {name,value} = e.target;
@@ -31,7 +34,7 @@ function Signin() {
         headers: {
             "Content-Type": "application/json",
         },
-        withCredentials: true,
+        credentials: "include",
         body: JSON.stringify({
             email,
             password
@@ -54,6 +57,7 @@ function Signin() {
         });
     }
     else {
+        setAccount(data);
         toast.success("login Successfull! 😎", {
             position: "top-right",
         });

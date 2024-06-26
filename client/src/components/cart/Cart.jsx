@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./cart.css";
 import { Divider } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { LoginContext } from "../context/ContextProvider";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Cart() {
     const { id } = useParams("");
-    const [inddata, setIndedata] = useState([]);
+
+    const history = useNavigate("");
+
+    const { account, setAccount } = useContext(LoginContext);
+
+    const [inddata, setIndedata] = useState("");
 
     const getinddata = async () => {
         const prod = await axios.get(
             `http://localhost:8080/getproductsone/${id}`
         );
-        console.log("hello");
+        // console.log("hello");
         console.log(prod.data);
         setIndedata(prod.data);
     };
@@ -22,31 +29,31 @@ function Cart() {
     }, [id]);
 
     // add cart
-    const addtocart = async(id) => {
-        const checkres = await fetch(`http://localhost:8080/addcart/${id}`,{
+    const addtocart = async (id) => {
+        const checkres = await fetch(`http://localhost:8080/addcart/${id}`, {
             method: "POST",
             headers: {
-                Accept:"application/json",
+                Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            body:JSON.stringify({
-                inddata
+            body: JSON.stringify({
+                inddata,
             }),
-            credentials:"include"
-        })
+            credentials: "include",
+        });
 
         const data1 = await checkres.json();
-        console.log(data1 +  "frontend data");
+        console.log(data1);
 
-        if(checkres.status === 401 || !data1) {
+        if (checkres.status === 401 || !data1) {
             console.log("invalid user");
             alert("user invalid");
+        } else {
+            // alert("data added in cart");
+            history("/buynow");
+            setAccount(data1);
         }
-        else {
-            alert("data added in cart");
-        }
-    }
-
+    };
 
     return (
         <div className="cart_section">
@@ -55,7 +62,12 @@ function Cart() {
                     <div className="left_cart">
                         <img src={inddata.url} alt="cart_img" />
                         <div className="cart_btn">
-                            <button className="cart_btn1" onClick={()=>addtocart(inddata.id)}>Add to Cart</button>
+                            <button
+                                className="cart_btn1"
+                                onClick={() => addtocart(inddata.id)}
+                            >
+                                Add to Cart
+                            </button>
                             <button className="cart_btn2">Buy Now</button>
                         </div>
                     </div>
@@ -120,6 +132,15 @@ function Cart() {
                         </p>
                     </div>
                 </div>
+            )}
+
+            {!inddata ? (
+                <div className="circle">
+                    <CircularProgress />
+                    <h2>Loadinng...</h2>
+                </div>
+            ) : (
+                ""
             )}
         </div>
     );
